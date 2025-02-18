@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mero Job - Authentication</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="auth.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="auth-form">
+                <form id="loginForm" action="login.php" method="POST" onsubmit="return false;">
+                    <h2>Welcome Back</h2>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <span class="error-message" id="loginEmailError"></span>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <span class="error-message" id="loginPasswordError"></span>
+                    </div>
+                    <button type="submit">Login</button>
+                    <p class="toggle-text">Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
+                    <p class="error-message" id="loginError"></p>
+                    <p class="success-message" id="loginSuccess"></p>
+                </form>
+
+                <form id="signupForm" action="signup.php" method="POST" onsubmit="return false;">
+                    <h2>Create Account</h2>
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="fullname" placeholder="Full Name" required>
+                        <span class="error-message" id="fullnameError"></span>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" placeholder="Email" required>
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" placeholder="Password" required>
+                        <span class="error-message" id="passwordError"></span>
+                    </div>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                        <span class="error-message" id="confirmPasswordError"></span>
+                    </div>
+                    <div class="user-type-group">
+                        <label>
+                            <input type="radio" name="userType" value="employee" checked>
+                            <span>Employee</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="userType" value="employer">
+                            <span>Employer</span>
+                        </label>
+                    </div>
+                    <div class="input-group company-input" id="companyInputGroup">
+                        <i class="fas fa-building"></i>
+                        <input type="text" name="companyName" id="companyInput" placeholder="Company Name">
+                        <span class="error-message" id="companyNameError"></span>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                    <p class="toggle-text">Already have an account? <a href="#" id="showLogin">Login</a></p>
+                    <p class="error-message" id="signupError"></p>
+                    <p class="success-message" id="signupSuccess"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
