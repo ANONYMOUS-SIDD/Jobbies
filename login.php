@@ -1,37 +1,26 @@
 <?php
-session_start();
-include 'db.php';
+header('Content-Type: application/json'); // Set response type to JSON
 
-$response = array('status' => 'error', 'message' => 'Invalid email or password.');
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $sql = "SELECT * FROM users WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['fullname'] = $user['fullname'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['userType'] = $user['userType'];
-            $_SESSION['companyName'] = $user['companyName'];
-
-            $_SESSION['login_success'] = 'Login successful. Welcome, ' . $_SESSION['fullname'] . '!';
-            $response['status'] = 'success';
-            $response['message'] = 'Login successful.';
-        }
+    // Check if both fields are filled
+    if (empty($email) || empty($password)) {
+        echo json_encode(["status" => "error", "message" => "Email and password are required."]);
+        exit();
     }
 
-    $stmt->close();
+    // Compare email and password directly
+    if ($email === $password) { // Simple check: Email and password must be the same
+        echo json_encode(["status" => "success", "message" => "Login successful!", "redirect" => "home.php"]);
+        exit();
+    } else {
+        echo json_encode(["status" => "error", "message" => "Invalid credentials."]);
+        exit();
+    }
+} else {
+    echo json_encode(["status" => "error", "message" => "Invalid request method."]);
+    exit();
 }
-
-$conn->close();
-echo json_encode($response);
 ?>

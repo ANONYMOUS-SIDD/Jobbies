@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = signupForm.querySelector('[name="email"]').value.trim();
         const password = signupForm.querySelector('[name="password"]').value;
         const confirmPassword = signupForm.querySelector('[name="confirmPassword"]').value;
+        const userType = signupForm.querySelector('[name="userType"]:checked').value;
         const companyName = signupForm.querySelector('[name="companyName"]').value.trim();
         let isValid = true;
 
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Company Name Validation (if Employer selected)
-        if (signupForm.querySelector('[name="userType"]:checked').value === 'employer' && companyName === '') {
+        if (userType === 'employer' && companyName === '') {
             document.getElementById('companyNameError').textContent = 'Company name is required for Employers.';
             isValid = false;
         } else {
@@ -74,47 +75,48 @@ document.addEventListener('DOMContentLoaded', () => {
         return isValid;
     }
 
-    // Submit Signup Form
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
+    // Handle Signup Form Submission
+    signupForm.addEventListener('submit', (event) => {
+        event.preventDefault();
         if (validateSignupForm()) {
-            const formData = new FormData(signupForm);
-            fetch('signup.php', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                const successMessage = document.getElementById('signupSuccess');
-                const errorMessage = document.getElementById('signupError');
-
-                // Clear previous messages
-                successMessage.style.display = 'none';
-                errorMessage.style.display = 'none';
-
-                if (data.status === 'success') {
-                    successMessage.textContent = data.message;
-                    successMessage.style.display = 'block';
-                } else {
-                    errorMessage.textContent = data.message;
-                    errorMessage.style.display = 'block';
-                }
-            })
-            .catch(error => {
-                const errorMessage = document.getElementById('signupError');
-                errorMessage.textContent = 'An error occurred while signing up.';
-                errorMessage.style.display = 'block';
-                console.error('Error:', error);
-            });
+            const userType = signupForm.querySelector('[name="userType"]:checked').value;
+            window.location.href = userType === 'employer' ? 'home.php' : 'home_user.php';
         }
     });
 
-    // Initially show login form
-    loginForm.classList.add('active');
+    // Client-side Login Validation
+    function validateLoginForm() {
+        const email = loginForm.querySelector('[name="email"]').value.trim();
+        const password = loginForm.querySelector('[name="password"]').value;
+        const userType = loginForm.querySelector('[name="userType"]:checked').value;
+        let isValid = true;
+
+        // Validate Email
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!email.match(emailPattern)) {
+            document.getElementById('loginEmailError').textContent = 'Please enter a valid email address.';
+            isValid = false;
+        } else {
+            document.getElementById('loginEmailError').textContent = '';
+        }
+
+        // Validate Password
+        if (password.length < 6) {
+            document.getElementById('loginPasswordError').textContent = 'Password must be at least 6 characters long.';
+            isValid = false;
+        } else {
+            document.getElementById('loginPasswordError').textContent = '';
+        }
+
+        return isValid;
+    }
+
+    // Handle Login Form Submission
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (validateLoginForm()) {
+            const userType = loginForm.querySelector('[name="userType"]:checked').value;
+            window.location.href = userType === 'employer' ? 'home.php' : 'home_user.php';
+        }
+    });
 });

@@ -20,26 +20,20 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Mero Job</title>
-    <link rel="stylesheet" href="home_admin.css">
-    
+    <link rel="stylesheet" href="home_user.css">
     <link rel="stylesheet" href="upload_button.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="home.js" defer></script>
-    
     <script>
-
-
-function showForm() {
-    var uploadJobSection = document.querySelector(".upload-job");
-    if (uploadJobSection.style.display === 'none' || uploadJobSection.style.display === '') {
-        uploadJobSection.style.display = 'block';  // Show the section
-    } else {
-        uploadJobSection.style.display = 'none';  // Hide the section
-    }
-}
-
-
+        function showForm() {
+            var uploadJobSection = document.querySelector(".upload-job");
+            if (uploadJobSection.style.display === 'none' || uploadJobSection.style.display === '') {
+                uploadJobSection.style.display = 'block';  // Show the section
+            } else {
+                uploadJobSection.style.display = 'none';  // Hide the section
+            }
+        }
     </script>
 </head>
 <body>
@@ -47,7 +41,7 @@ function showForm() {
         <div class="container">
             <a class="navbar-brand">Mero Job</a>
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="home.php" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="home_user.php" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="index.html" class="nav-link">Dashboard</a></li>
                 <li class="nav-item"><a href="logout.php" class="nav-link">Logout</a></li>
             </ul>
@@ -84,6 +78,7 @@ function showForm() {
                                 <?php echo nl2br(htmlspecialchars($job['description'])); ?>
                             </div>
                         </div>
+                        <button class="apply-button" onclick="location.href='apply.html'">Apply Now</button>
                     </div>
                 <?php endforeach; ?>
                 <?php if (empty($jobs)): ?>
@@ -94,39 +89,10 @@ function showForm() {
             </div>
         </div>
     </section>
-    <button onclick="showForm()" type="button" id="show-form">Upload Jobs</button>
-    <button type="button" id="show-form" onclick="window.location.href='applications.php';">View Application</button>
-    <section class="upload-job">
-        <div class="container">
-            <h2>Upload a Job</h2>
-            <div id="formContainer" class="form-container">
-                <form id="uploadJobForm" action="upload_job.php" method="POST">
-                    <div class="input-group">
-                        <label for="title">Job Title</label>
-                        <input type="text" name="title" id="title" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="company">Company</label>
-                        <input type="text" name="company" id="company" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="location">Location</label>
-                        <input type="text" name="location" id="location" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" rows="4" required></textarea>
-                    </div>
-                    <button type="submit">
-                        <i class="fas fa-upload"></i>
-                        Upload Job
-                    </button>
-                    <p class="error-message" id="uploadError"></p>
-                    <p class="success-message" id="uploadSuccess"></p>
-                </form>
-            </div>
-        </div>
-    </section>
+    <button type="button" id="show-form" onclick="window.location.href='view_appliction.php';">
+    View Application Status
+</button>
+
 
     <footer class="footer">
         <div class="container">

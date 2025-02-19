@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --background: #f0f4f8;
+    --text-color: #333;
+    --primary: #5C6BC0;
+    --secondary: #3F51B5;
+    --error-color: #e74c3c;
+    --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.1), 0 8px 20px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 4px 10px rgba(0, 0, 0, 0.2), 0 8px 30px rgba(0, 0, 0, 0.2);
+    --neumorphism-shadow: 8px 8px 16px rgba(0, 0, 0, 0.1), -8px -8px 16px rgba(255, 255, 255, 0.7);
+    --transition: all 0.3s ease-in-out;
+    --radius: 16px;
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+ 
+}
+
+
+.apply-form-container {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: var(--neumorphism-shadow);
+    padding: 40px;
+    width: 100%;
+    max-width: 700px;
+    margin: 80px 20px;
+    box-sizing: border-box;
+    transition: var(--transition);
+}
+
+.apply-form-container:hover {
+    box-shadow: var(--shadow-heavy);
+}
+
+h2 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #f0f4f8;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 5px rgba(92, 107, 192, 0.5);
+}
+
+textarea {
+    resize: vertical;
+}
+
+button.submit-btn {
+    background-color: var(--primary);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button.submit-btn:hover {
+    background-color: var(--secondary);
+}
+
+.error {
+    color: var(--error-color);
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+/* Neumorphic Styled File Input */
+input[type="file"] {
+    display: none; /* Hide the default file input */
+}
+
+.file-label {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--neumorphism-shadow);
+}
+
+.file-label:hover {
+    background-color: #f0f4f8;
+    border-color: var(--primary);
+}
+
+.file-label:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 2px 2px 4px rgba(0, 0, 0, 0.05), inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-sm);
+    }
+
+    .apply-form-container {
+        padding: 20px;
+        margin: 50px 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    button.submit-btn {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 15px;
+    }
+
+    .apply-form-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    input, select, textarea {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    button.submit-btn {
+        font-size: 12px;
+    }
+}

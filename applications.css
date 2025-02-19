@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+:root {
+    --background: #f9fafb;
+    --text-color: #24292e;
+    --primary: #ff6f61;
+    --secondary: #6c5ce7;
+    --accent: #00b894;
+    --shadow-light: 0 1px 3px rgba(27, 31, 35, 0.12), 0 8px 24px rgba(27, 31, 35, 0.12);
+    --shadow-heavy: 0 3px 6px rgba(140, 149, 159, 0.15), 0 6px 12px rgba(140, 149, 159, 0.15);
+    --neumorphism-shadow-dark: 8px 8px 16px rgba(0, 0, 0, 0.15), -8px -8px 16px rgba(255, 255, 255, 0.7);
+    --neumorphism-shadow-light: -5px -5px 10px rgba(255, 255, 255, 0.5), 5px 5px 10px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease-in-out;
+    --radius: 16px;
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --font-family: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-color);
+    min-height: 100vh;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    background: #ffffff;
+    padding: var(--space-md) 0;
+    box-shadow: var(--shadow-heavy);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    color: var(--text-color);
+    border-bottom: 3px solid var(--secondary);
+    transition: background 0.3s ease-in-out;
+}
+
+.navbar:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    color: var(--primary);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    max-width: 40px;
+    margin-right: var(--space-sm);
+}
+
+.navbar-nav {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+}
+
+.nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius);
+    transition: var(--transition);
+    position: relative;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--secondary);
+    transition: var(--transition);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::before {
+    width: 100%;
+}
+
+.nav-link:hover {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+header.hero {
+    text-align: center;
+    padding: var(--space-xl) 0;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: #ffffff;
+}
+
+header.hero h1 {
+    font-size: 2.5rem;
+}
+
+.applications-container {
+    background: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+    padding: var(--space-xl) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.applications-container .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--space-lg);
+    max-width: 800px;
+  
+}
+
+.application-card {
+    background: #ffffff;
+    padding: var(--space-lg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-light);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    min-height: 450px;
+    margin: 10px;
+ 
+}
+
+.application-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-heavy);
+}
+
+.application-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
+    color: var(--primary);
+}
+
+.application-card p {
+    margin-bottom: var(--space-xs);
+}
+
+.application-card p a.cv {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.application-card p a.cv:hover {
+    text-decoration: underline;
+}
+
+.application-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-md);
+}
+
+button.button {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: #ffffff;
+    padding: var(--space-xs) var(--space-sm);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-right: var(--space-xs);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+
+button.button:hover {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+}
+
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    header.hero h1 {
+        font-size: 2rem;
+    }
+
+    .applications-container .container {
+        grid-template-columns: 1fr;
+    }
+
+    .application-card {
+        margin-bottom: var(--space-md);
+    }
+}

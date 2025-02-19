@@ -1,0 +1,23 @@
+/* General message styling */
+.message {
+    padding-top: 15px;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    max-width: 500px;
+    text-align: center;
+    color: white;
+    opacity: 0; /* Initially transparent */
+    animation: fadeIn 1s ease-in forwards; /* Apply ease-in animation */
+}
+
+/* Animation keyframes for fade-in effect */
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Start invisible */
+        transform: translateY(20px); /* Start slightly below */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* End at normal position */
+    }
+}
