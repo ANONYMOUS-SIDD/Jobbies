@@ -1,4 +1,12 @@
 <?php
+session_start(); // Start the session
+
+// Check if the user is logged in, if not, redirect to the login page
+if (!isset($_SESSION['user_company'])) {
+    header("Location: login.php");
+    exit();
+}
+
 // Initialize connection
 $servername = "localhost";
 $username = "root"; // Default username for XAMPP/WAMP
@@ -16,31 +24,79 @@ if ($conn->connect_error) {
 // Select the database
 $conn->select_db($dbname);
 
-// Handle form submission for Reject or Accept
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['action'])) {
-        $email = $_POST['email'];
-        $fullname = $_POST['fullname'];
+// Store the company from the session (logged-in user's company)
+$user_email= $_SESSION['user_email'];
+$user_company= $_SESSION['user_company'];
 
-        if ($_POST['action'] == 'reject') {
-            $sql = "UPDATE job_applications SET job_status = 'Rejected' WHERE email = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $message = "$fullname's application has been rejected.";
-        } elseif ($_POST['action'] == 'accept') {
-            $sql = "UPDATE job_applications SET job_status = 'Accepted' WHERE email = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("s", $email);
-            $stmt->execute();
-            $message = "$fullname's application has been accepted.";
-        }
+// Generate the dynamic table name
+$emailTableName = "job_applications_" . md5($user_email);
+$userTableName = "company_applications_" . md5($user_company);
+
+// Check if the table exists
+$tableCheckSql = "SHOW TABLES LIKE '$userTableName'";
+$tableCheckResult = $conn->query($tableCheckSql);
+
+if ($tableCheckResult->num_rows > 0) {
+    // Fetch the application of the logged-in user from the dynamically created table
+    $sql = "SELECT * FROM `$userTableName` WHERE company = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $user_company);  // Use the session email for the logged-in user
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    // If table doesn't exist, set result to null to show no applications message
+    $result = null;
+}
+
+
+// Generate the dynamic table name
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $user_email !== "") {
+    $email = $_POST['email'];
+    $fullname = $_POST['fullname'];
+    $emailTableName = "job_applications_" . md5($email);
+
+    if ($_POST['action'] == 'reject') {
+        // Update job_status to 'Rejected'
+        $sql = "UPDATE `$emailTableName` SET job_status = 'Rejected' WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $message = "$fullname's application has been rejected.";
+    } elseif ($_POST['action'] == 'accept') {
+        // Update job_status to 'Accepted'
+        $sql = "UPDATE `$emailTableName` SET job_status = 'Accepted' WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $message = "$fullname's application has been accepted.";
     }
 }
 
-// Fetch the applications from the database
-$sql = "SELECT * FROM job_applications";
-$result = $conn->query($sql);
+
+
+// Handle form submission for Reject or Accept
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $user_email !== "") {
+    $email = $_POST['email'];
+    $fullname = $_POST['fullname'];
+
+    if ($_POST['action'] == 'reject') {
+        // Delete the row for the rejected application
+        $sql = "DELETE FROM `$userTableName` WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $message = "$fullname's application has been rejected.";
+    } elseif ($_POST['action'] == 'accept') {
+        // Delete the row for the accepted application
+        $sql = "DELETE FROM `$userTableName` WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $message = "$fullname's application has been accepted.";
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -51,44 +107,42 @@ $result = $conn->query($sql);
     <title>Applications</title>
     <link href="applications.css" rel="stylesheet">
     <style>
- .status-box  {
-    font-size: 16px;
-    display: inline-block;
-    padding: 8px 10px;
-    background: linear-gradient(45deg,rgb(7, 137, 231),rgb(232, 80, 20)); /* Smooth gradient from pinkish to peach */
-    border-radius: 30px; /* Rounded corners for a modern feel */
-    color: white;
-    font-weight: bold; /* Make the text stand out */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow for depth */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for a floating effect */
-    margin-top: 20px;
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
-}
+        .status-box {
+            font-size: 16px;
+            display: inline-block;
+            padding: 8px 10px;
+            background: linear-gradient(45deg, rgb(7, 137, 231), rgb(232, 80, 20));
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-.status-box:hover {
-    transform: translateY(-5px); /* Slight lift effect on hover */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
-}
-button  {
-    font-size: 16px;
-    display: inline;
-    padding: 8px 10px;
-    background: linear-gradient(45deg,rgb(7, 137, 231),rgb(232, 80, 20)); /* Smooth gradient from pinkish to peach */
-    border-radius: 30px; /* Rounded corners for a modern feel */
-    color: white;
-    font-weight: bold; /* Make the text stand out */
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow for depth */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for a floating effect */
-    margin-top: 20px;
+        .status-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
 
-    bottom: 15px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition effects */
-}
-
-
+        button {
+            font-size: 16px;
+            display: inline;
+            padding: 8px 10px;
+            background: linear-gradient(45deg, rgb(7, 137, 231), rgb(232, 80, 20));
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            bottom: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -111,11 +165,11 @@ button  {
         <!-- Display the message if any -->
         <?php if (isset($message)): ?>
             <div class="alert">
-                <p><?php echo htmlspecialchars($message); ?></p>
+                <p style="text-align:center;"><?php echo htmlspecialchars($message); ?></p>
             </div>
         <?php endif; ?>
 
-        <?php if ($result->num_rows > 0): ?>
+        <?php if ($result && $result->num_rows > 0): ?>
             <?php while($row = $result->fetch_assoc()): ?>
                 <div class="application-card">
                     <h2><?php echo htmlspecialchars($row['fullname']); ?></h2>
@@ -131,8 +185,6 @@ button  {
                     <form method="POST" action="applications.php">
                         <input type="hidden" name="email" value="<?php echo $row['email']; ?>">
                         <input type="hidden" name="fullname" value="<?php echo $row['fullname']; ?>">
-
-                        <!-- Reject and Accept buttons -->
                         <button type="submit" name="action" value="reject" class="button">Reject</button>
                         <button type="submit" name="action" value="accept" class="button">Accept</button>
                         <p class="status-box"><?php echo htmlspecialchars($row['job_status']); ?></p>

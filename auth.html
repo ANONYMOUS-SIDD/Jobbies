@@ -7,29 +7,31 @@
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="auth.js" defer></script>
-    <script src="validate.js"></script>
+  
     <link rel="stylesheet" href="error.css">
-    <script src="log.js"></script>
+    <script src="login.js"></script>
 
     <script>
-        // Inside your existing auth.js
+        function toggleCompanyField() {
+    const employeeRadio = document.getElementById("employee");
+    const employerRadio = document.getElementById("employer");
+    const companyInputGroup = document.getElementById("companyInputGroup");
 
-        function toggleEmployerField() {
-            var employerRadio = document.getElementById('employer');
-            var companyInputGroup = document.getElementById('companyInputGroup');
-            
-            if (employerRadio.checked) {
-                companyInputGroup.style.display = "flex"; // Show the field properly
-            } else {
-                companyInputGroup.style.display = "none";  // Hide the field
-            }
-        }
+    // Show or hide the company name field based on the selected user type
+    if (employerRadio.checked) {
+        companyInputGroup.style.display = "block"; // Show company name field
+    } else {
+        companyInputGroup.style.display = "none"; // Hide company name field
+        document.getElementById("companyInput").value = ""; // Clear value when hidden
+    }
+}
 
-        // Set "Employee" as default on page load
-        window.onload = function() {
-            document.getElementById('employee').checked = true; // Set Employee as default
-            toggleEmployerField(); // Ensure correct initial state
-        };
+// Call toggleCompanyField() on page load to set the initial state
+window.onload = function() {
+    toggleCompanyField(); // Ensure proper initial state based on selected radio button
+}
+
+
     </script>
 
     <style>
@@ -70,7 +72,7 @@
         <div class="form-container">
             <div class="auth-form">
                 <!-- Login Form -->
-                <form id="loginForm" action="login.php" method="POST" onsubmit="return false;">
+                <form id="loginForm"  method="POST" onsubmit="return false;">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <i class="fas fa-envelope"></i>
@@ -83,14 +85,9 @@
                         <span class="error-message" id="loginPasswordError"></span>
                     </div>
                     <div class="user-type-group">
-                        <label>
-                            <input type="radio" name="userType" value="employee" id="employee" onclick="toggleEmployerField()" checked>
-                            <span>Employee</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="userType" value="employer" id="employer" onclick="toggleEmployerField()">
-                            <span>Employer</span>
-                        </label>
+                  
+                    
+                        
                     </div>
                     <button type="submit">Login</button>
                     
@@ -100,7 +97,7 @@
                 </form>
 
                 <!-- Signup Form -->
-                <form id="signupForm" action="signup.php" method="POST" onsubmit="return false;">
+                <form id="signupForm" method="POST" onsubmit="return false;">
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <i class="fas fa-user"></i>
@@ -125,26 +122,28 @@
 
                     <div class="user-type-group">
                         <label>
-                            <input type="radio" name="userType" value="employee" id="employee" onclick="toggleEmployerField()" checked>
+                            <input type="radio" name="userType" value="employee" id="employee" onclick="toggleCompanyField()" checked>
                             <span>Employee</span>
                         </label>
                         <label>
-                            <input type="radio" name="userType" value="employer" id="employer" onclick="toggleEmployerField()">
+                            <input type="radio" name="userType" value="employer" id="employer" onclick="toggleCompanyField()">
                             <span>Employer</span>
                         </label>
                     </div>
 
                     <!-- Company Name Field (Initially Hidden) -->
-                    <div class="input-group companys-input" id="companyInputGroup">
+                    <div class="input-group companys-input" id="companyInputGroup" style="display: none;">
                         <i class="fas fa-building"></i>
-                        <input type="text" name="companyName" required id="companyInput" placeholder="Company Name">
-                        <span class="error-message" id="companyNameError"></span>
+                        <input type="text" name="companyName"  id="companyInput" placeholder="Company Name">
+                
                     </div>
 
                     <button type="submit">Sign Up</button>
                     <p class="toggle-text">Already have an account? <a href="#" id="showLogin">Login</a></p>
                     <p class="message" id="signupError"></p>
+                    <p class="message" id="companyNameError"></p>
                     <p class="message" id="signupSuccess"></p>
+                   
                 </form>
             </div>
         </div>

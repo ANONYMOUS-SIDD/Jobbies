@@ -15,19 +15,28 @@ document.addEventListener("DOMContentLoaded", function () {
             method: "POST",
             body: formData
         })
-        .then(response => response.json()) // Convert response to JSON
-        .then(data => {
-            let errorMessage = document.getElementById("errorMessage");
-            if (!errorMessage) {
-                console.error("Error: errorMessage element not found!");
-                return;
-            }
+        .then(response => {
+            return response.text(); // First get raw text to debug
+        })
+        .then(text => {
+            console.log('Response from server:', text); // Log the raw response to see if it's valid JSON
+            try {
+                const data = JSON.parse(text); // Now parse it into JSON
+                let errorMessage = document.getElementById("errorMessage");
+                if (!errorMessage) {
+                    console.error("Error: errorMessage element not found!");
+                    return;
+                }
 
-            if (data.status === "success") {
-                alert(data.message);
-                window.location.href = data.redirect; // Redirect to home.php
-            } else {
-                errorMessage.innerText = data.message; // Show error
+                if (data.status === "success") {
+                    alert(data.message);
+                    window.location.href = data.redirect; // Redirect to home.php
+                } else {
+                    errorMessage.innerText = data.message; // Show error
+                }
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+                console.log("Raw response:", text); // This will help you see the raw response
             }
         })
         .catch(error => console.error("Error:", error));

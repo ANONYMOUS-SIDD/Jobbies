@@ -63,7 +63,7 @@ $conn->close();
                     <div class="job-listing">
                         <h3><?php echo htmlspecialchars($job['title']); ?></h3>
                         <div class="job-meta">
-                            <div>
+                            <div id="company">
                                 <i class="fas fa-building"></i>
                                 <?php echo htmlspecialchars($job['company']); ?>
                             </div>
@@ -78,7 +78,7 @@ $conn->close();
                                 <?php echo nl2br(htmlspecialchars($job['description'])); ?>
                             </div>
                         </div>
-                        <button class="apply-button" onclick="location.href='apply.html'">Apply Now</button>
+                        <button class="apply-button" onclick="location.href='apply.html' ">Apply Now</button>
                     </div>
                 <?php endforeach; ?>
                 <?php if (empty($jobs)): ?>

@@ -1,5 +1,5 @@
 <?php
-// Enable error reporting to help debug
+// Enable error reporting for debugging
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -19,7 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
     $userType = $_POST['userType'];
-    $companyName = isset($_POST['companyName']) ? trim($_POST['companyName']) : '';
+    
+    // Set companyName as "employee" if user is an employee
+    $companyName = ($userType === 'employee') ? 'employee' : trim($_POST['companyName'] ?? '');
 
     // Check if required fields are filled
     if (empty($fullname) || empty($email) || empty($password) || empty($confirmPassword)) {
@@ -40,9 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($result->num_rows > 0) {
                 $response['message'] = 'This email is already registered.';
             } else {
-                // If user type is 'employer' and company name is provided, check for company name duplication
-                if ($userType == 'employer' && !empty($companyName)) {
-                    // Check if the company name already exists
+                // If the user is an employer, check if the company name already exists
+                if ($userType === 'employer' && !empty($companyName)) {
                     $companyCheckSql = "SELECT * FROM users WHERE companyName = ?";
                     if ($companyCheckStmt = $conn->prepare($companyCheckSql)) {
                         $companyCheckStmt->bind_param("s", $companyName);
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $response['message'] = 'Error checking company name: ' . $conn->error;
                     }
                 } else {
-                    // Proceed with user registration for non-employer or if company name is not provided
+                    // Proceed with user registration for employees or employers without a company name
                     registerUser($fullname, $email, $password, $userType, $companyName);
                 }
             }
