@@ -39,7 +39,7 @@ $conn->close();
 <body>
     <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand">Mero Job</a>
+            <a class="navbar-brand">Jobbies</a>
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="home_user.php" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="index.html" class="nav-link">Dashboard</a></li>
@@ -50,7 +50,7 @@ $conn->close();
 
     <header class="hero">
         <div class="container">
-            <h1>Welcome to Mero Job!</h1>
+            <h1>Welcome to Jobbies!</h1>
             <p>Find and manage jobs with Mero Job</p>
         </div>
     </header>

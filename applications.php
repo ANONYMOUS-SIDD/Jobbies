@@ -148,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $user_ema
 <body>
     <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand">Mero Job</a>
+            <a class="navbar-brand">Jobbies</a>
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="home.php" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="index.html" class="nav-link">Dashboard</a></li>

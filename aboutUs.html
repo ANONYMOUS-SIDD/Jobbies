@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Jobbies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2E3192, #1BFFFF);
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 20px 8%;
+            background: rgba(0, 0, 0, 0.9);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFD700;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #FFD700;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FF5733;
+        }
+
+        .cta-button {
+            background: #FF5733;
+            color: black !important;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        /* About Us Section */
+        .about-us, .mission {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 8%;
+            margin-top: 30px;
+            animation: fadeInUp 1s forwards;
+        }
+
+        .about-us .card, .mission .card {
+            background: #1B1B2F;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            max-width: 700px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .about-us .card:hover, .mission .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-us h1, .mission h2 {
+            font-size: 36px;
+            color: #FFD700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .about-us p, .mission p {
+            font-size: 18px;
+            color: #EAEAEA;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Team Section */
+        .team {
+            padding: 100px 8%;
+            background: #1A1A2E;
+            color: white;
+        }
+
+        .team h3 {
+            font-size: 36px;
+            color: #FFD700;
+            margin-bottom: 40px;
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .team-member {
+            background: #1B1B2F;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .team-member img {
+            width: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .team-member h4 {
+            font-size: 22px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .team-member p {
+            font-size: 16px;
+            color: #EAEAEA;
+        }
+
+        /* Values Section */
+        .mission-section {
+            padding: 60px 8%;
+            background: #1B1B2F;
+            color: white;
+        }
+
+        .mission-section h2 {
+            font-size: 36px;
+            color: #FFD700;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .value-card {
+            background: #2A2A3C;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .value-card i {
+            font-size: 40px;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .value-card h3 {
+            font-size: 22px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .value-card p {
+            font-size: 16px;
+            color: #EAEAEA;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .about-us, .mission, .mission-section {
+                padding: 60px 5%;
+            }
+
+            .about-us h1, .mission h2, .mission-section h2 {
+                font-size: 30px;
+            }
+
+            .team h3 {
+                font-size: 30px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Jobbies</div>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="contactUs.html">Contact Us</a>
+            <a href="aboutUs.html">About Us</a>
+            <a href="auth.html" class="cta-button">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- About Us Section with Card and Image -->
+    <section class="about-us">
+        <div class="card">
+            <h1>About Us</h1>
+            <p>Jobbies is not just a job search platform—it's a movement. Our goal is to revolutionize the way professionals find their dream jobs by leveraging cutting-edge technology and a highly personalized experience. We strive to make job searching not only efficient but exciting. With an ever-growing database of opportunities, Jobbies ensures that no one is left behind in the race for their perfect career.</p>
+        </div>
+        <img src="images/aboutUs.jpg" alt="About Us Image" style="width: 45%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);"/>
+    </section>
+
+    <!-- Our Mission Section with Card and Image -->
+    <section class="mission">
+        <img src="images/mission.jpg" alt="Our Mission Image" style="width: 45%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);"/>
+        <div class="card">
+            <h2>Our Mission</h2>
+            <p>We are committed to empowering individuals to discover careers that match their passion and expertise. Through our AI-powered matching system and personalized recommendations, we aim to reduce the job search time and increase hiring success. Our mission is to make the job market more accessible, faster, and more inclusive for everyone.</p>
+        </div>
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="mission-section">
+        <h2>Our Values</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <i class="fas fa-heart value-icon"></i>
+                <h3>Empathy First</h3>
+                <p>Understanding the human behind every resume and job post</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-lightbulb value-icon"></i>
+                <h3>Innovation</h3>
+                <p>Constantly evolving to serve you better</p>
+            </div>
+            <div class="value-card">
+                <i class="fas fa-shield-alt value-icon"></i>
+                <h3>Integrity</h3>
+                <p>Transparent and ethical practices always</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <h3>Meet Our Team</h3>
+        <div class="team-members">
+            <div class="team-member">
+                <img src="images/nirjan.jpg" alt="Team Member 1">
+                <h4>Nirjan Dahal</h4>
+                <p>Founder & CEO</p>
+            </div>
+            <div class="team-member">
+                <img src="images/sabinr.jpeg" alt="Team Member 2">
+                <h4>Sabin Ramtel</h4>
+                <p>Lead Engineer</p>
+            </div>
+            <div class="team-member">
+                <img src="images/Anonymous Logo.jpg" alt="Team Member 3">
+                <h4>Anonymous</h4>
+                <p>Product Manager</p>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

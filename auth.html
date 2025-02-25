@@ -7,37 +7,13 @@
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="auth.js" defer></script>
-  
+    
     <link rel="stylesheet" href="error.css">
     <script src="login.js"></script>
 
-    <script>
-        function toggleCompanyField() {
-    const employeeRadio = document.getElementById("employee");
-    const employerRadio = document.getElementById("employer");
-    const companyInputGroup = document.getElementById("companyInputGroup");
-
-    // Show or hide the company name field based on the selected user type
-    if (employerRadio.checked) {
-        companyInputGroup.style.display = "block"; // Show company name field
-    } else {
-        companyInputGroup.style.display = "none"; // Hide company name field
-        document.getElementById("companyInput").value = ""; // Clear value when hidden
-    }
-}
-
-// Call toggleCompanyField() on page load to set the initial state
-window.onload = function() {
-    toggleCompanyField(); // Ensure proper initial state based on selected radio button
-}
-
-
-    </script>
-
     <style>
-        /* Add styling to ensure proper visibility */
         .company-input {
-            display: none; /* Hidden by default */
+            display: none;
             align-items: center;
             gap: 10px;
             border: 1px solid #ccc;
@@ -57,22 +33,41 @@ window.onload = function() {
             background: #fff;
             padding: 8px;
             border-radius: 5px;
-            cursor: text; /* Ensure cursor is visible */
         }
 
         .company-input input:focus {
             border-color: #6366f1;
             box-shadow: 0 0 5px rgba(99, 102, 241, 0.5);
         }
-    </style>
 
+        /* Password Toggle Styles */
+        .password-toggle {
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            z-index: 2;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input[type="password"],
+        .input-group input[type="text"] {
+            padding-right: 40px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
             <div class="auth-form">
                 <!-- Login Form -->
-                <form id="loginForm"  method="POST" onsubmit="return false;">
+                <form id="loginForm" method="POST" onsubmit="return false;">
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <i class="fas fa-envelope"></i>
@@ -82,15 +77,10 @@ window.onload = function() {
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
                         <input type="password" name="password" placeholder="Password" required>
+                        <i class="fas fa-eye password-toggle" onclick="togglePasswordVisibility(this)"></i>
                         <span class="error-message" id="loginPasswordError"></span>
                     </div>
-                    <div class="user-type-group">
-                  
-                    
-                        
-                    </div>
                     <button type="submit">Login</button>
-                    
                     <p class="toggle-text">Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
                     <p id="errorMessage" style="color: red; text-align: center;"></p> 
                     <p class="success-message" id="loginSuccess"></p>
@@ -112,11 +102,13 @@ window.onload = function() {
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
                         <input type="password" name="password" placeholder="Password" required>
+                        <i class="fas fa-eye password-toggle" onclick="togglePasswordVisibility(this)"></i>
                         <span class="error-message" id="passwordError"></span>
                     </div>
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
                         <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                        <i class="fas fa-eye password-toggle" onclick="togglePasswordVisibility(this)"></i>
                         <span class="error-message" id="confirmPasswordError"></span>
                     </div>
 
@@ -131,11 +123,9 @@ window.onload = function() {
                         </label>
                     </div>
 
-                    <!-- Company Name Field (Initially Hidden) -->
                     <div class="input-group companys-input" id="companyInputGroup" style="display: none;">
                         <i class="fas fa-building"></i>
-                        <input type="text" name="companyName"  id="companyInput" placeholder="Company Name">
-                
+                        <input type="text" name="companyName" id="companyInput" placeholder="Company Name">
                     </div>
 
                     <button type="submit">Sign Up</button>
@@ -143,10 +133,42 @@ window.onload = function() {
                     <p class="message" id="signupError"></p>
                     <p class="message" id="companyNameError"></p>
                     <p class="message" id="signupSuccess"></p>
-                   
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        // Password Visibility Toggle
+        function togglePasswordVisibility(icon) {
+            const input = icon.previousElementSibling;
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        // Company Field Toggle
+        function toggleCompanyField() {
+            const employeeRadio = document.getElementById("employee");
+            const employerRadio = document.getElementById("employer");
+            const companyInputGroup = document.getElementById("companyInputGroup");
+
+            if (employerRadio.checked) {
+                companyInputGroup.style.display = "block";
+            } else {
+                companyInputGroup.style.display = "none";
+                document.getElementById("companyInput").value = "";
+            }
+        }
+
+        // Initialize company field visibility
+        window.onload = function() {
+            toggleCompanyField();
+        }
+    </script>
 </body>
 </html>
