@@ -30,13 +30,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const companyName = signupForm.querySelector('[name="companyName"]').value.trim();
         let isValid = true;
 
-        // Validate Full Name
-        if (fullname === '') {
-            document.getElementById('fullnameError').textContent = 'Full name is required.';
-            isValid = false;
-        } else {
-            document.getElementById('fullnameError').textContent = '';
-        }
+   // Validate Username
+const username = document.getElementById('username').value;
+const usernameError = document.getElementById('usernameError');
+const usernameRegex = /^[a-zA-Z_]{3,15}$/; // Allows only letters (A-Z, a-z) and underscores, length between 3 and 15 characters
+
+if (username === '') {
+    usernameError.textContent = 'Username is required.';
+    isValid = false;
+} else if (!usernameRegex.test(username)) {
+    usernameError.textContent = 'Username must be between 3-15 characters and can only contain letters and underscores.';
+    isValid = false;
+} else {
+    usernameError.textContent = ''; // Clear error message if validation passes
+}
+
 
         // Validate Email
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -47,13 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('emailError').textContent = '';
         }
 
-        // Validate Password
-        if (password.length < 6) {
-            document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long.';
-            isValid = false;
-        } else {
-            document.getElementById('passwordError').textContent = '';
-        }
+       // Validate Password
+ const pass = document.getElementById('password').value;
+const passwordError = document.getElementById('passwordError');
+
+// Regex to check for strong password requirements
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+
+if (pass=== '') {
+    passwordError.textContent = 'Password is required.';
+    isValid = false;
+} else if (pass.length < 6) {
+    passwordError.textContent = 'Password must be at least 6 characters long.';
+    isValid = false;
+} else if (!passwordRegex.test(pass)) {
+    passwordError.textContent = 'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.';
+    isValid = false;
+} else {
+    passwordError.textContent = ''; // Clear error message if password is valid
+}
+
 
         // Validate Confirm Password
         if (password !== confirmPassword) {
@@ -95,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const errorMessage = document.getElementById('signupError');
 
                 // Clear previous messages
+                
                 successMessage.style.display = 'none';
                 errorMessage.style.display = 'none';
 

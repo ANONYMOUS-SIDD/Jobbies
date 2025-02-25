@@ -9,11 +9,12 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    background: linear-gradient(135deg, #9c27b0, #ff5722, #2196f3); /* Purple, Orange, Blue gradient */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    transition: all 0.5s ease; /* Smooth transition for background */
 }
 
 .container {
@@ -22,22 +23,42 @@ body {
 }
 
 .form-container {
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(15px);
-    border-radius: 16px;
-    padding: 2rem;
+    border-radius: 20px;
+    padding: 2.5rem;
     width: 100%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.3s ease-in-out;
+    transform: translateY(10px);
+    opacity: 0;
+    animation: fadeIn 0.8s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.5);
 }
 
 h2 {
-    color: white;
+    color: #ffffff;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
+    letter-spacing: 1px;
 }
 
 .auth-form {
@@ -48,29 +69,40 @@ form {
     width: 100%;
     display: none;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease-in-out;
 }
 
 form.active {
     display: block;
     opacity: 1;
+    animation: formSlideIn 0.5s ease-out forwards;
+}
+
+@keyframes formSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Input Field Styling */
 .input-group {
     position: relative;
     margin-bottom: 1.5rem;
-
 }
 
 .input-group i {
     position: absolute;
-  padding-left: 10px;
-
+    padding-left: 10px;
     top: 50%;
     transform: translateY(-50%);
     color: rgba(255, 255, 255, 0.8);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
 }
 
 .input-group input {
@@ -83,6 +115,7 @@ form.active {
     color: white;
     font-size: 1rem;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .input-group input::placeholder {
@@ -91,14 +124,15 @@ form.active {
 
 .input-group input:focus {
     background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
 }
 
 /* User Type Toggle */
 .user-type-group {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
     margin-bottom: 1.5rem;
     color: white;
 }
@@ -106,17 +140,19 @@ form.active {
 .user-type-group label {
     flex: 1;
     padding: 12px;
-    border-radius: 20px;
+    border-radius: 25px;
     background: rgba(255, 255, 255, 0.1);
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 500;
+    text-transform: uppercase;
 }
 
 .user-type-group label:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .user-type-group input[type="radio"] {
@@ -124,16 +160,16 @@ form.active {
 }
 
 .user-type-group input[type="radio"]:checked + span {
-    color: #6366f1;
+    color: #ff6f00; /* Orange for checked state */
     font-weight: 600;
 }
 
 .user-type-group label:has(input[type="radio"]:checked) {
     background: rgba(255, 255, 255, 0.9);
-    color: #6366f1;
+    color: #ff6f00;
     font-weight: 600;
     transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 /* Company Name Input */
@@ -155,18 +191,43 @@ form.active {
 button {
     width: 100%;
     padding: 12px;
-    background: white;
+    background: linear-gradient(45deg, #ff6f00, #6a1b9a); /* Gradient from Orange to Purple */
     border: none;
     border-radius: 25px;
-    color: #6366f1;
-    font-size: 1rem;
+    color: white;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 button:hover {
-    background: #ececff;
+    background: linear-gradient(45deg, #ff9100, #9c27b0); /* Lighter gradient on hover */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+/* Already have an account? Section */
+.already-account {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+}
+
+.already-account a {
+    color: #ff6f00;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.already-account a:hover {
+    text-decoration: underline;
 }
 
 /* Toggle Between Login and Signup */
@@ -175,6 +236,7 @@ button:hover {
     color: white;
     margin-top: 1rem;
     font-size: 0.9rem;
+    letter-spacing: 0.5px;
 }
 
 .toggle-text a {
@@ -190,4 +252,11 @@ button:hover {
     font-size: 0.85rem;
     text-align: center;
     margin-top: 0.5rem;
+}
+
+/* Adding subtle focus animations */
+input:focus, button:focus {
+    outline: none;
+    border: 2px solid #2196f3;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
 }
