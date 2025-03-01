@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let isValid = true;
 
    // Validate Username
-const username = document.getElementById('username').value;
-const usernameError = document.getElementById('usernameError');
+const username = document.getElementById('fullname');
+const usernameError = document.getElementById('fullnameError');
 const usernameRegex = /^[a-zA-Z_]{3,15}$/; // Allows only letters (A-Z, a-z) and underscores, length between 3 and 15 characters
 
 if (username === '') {
@@ -55,25 +55,38 @@ if (username === '') {
             document.getElementById('emailError').textContent = '';
         }
 
-       // Validate Password
- const pass = document.getElementById('password').value;
+      // Get the password input and error display elements
+const pass = document.getElementById('password').value;
 const passwordError = document.getElementById('passwordError');
 
-// Regex to check for strong password requirements
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
 
-if (pass=== '') {
+// Check if the password is empty
+if (pass === '') {
     passwordError.textContent = 'Password is required.';
     isValid = false;
+// Check password length
 } else if (pass.length < 6) {
     passwordError.textContent = 'Password must be at least 6 characters long.';
     isValid = false;
-} else if (!passwordRegex.test(pass)) {
-    passwordError.textContent = 'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.';
+// Check for at least one digit
+} else if (!/[0-9]/.test(pass)) {
+    passwordError.textContent = 'Password must contain at least one digit.';
+    isValid = false;
+// Check for at least one uppercase letter
+} else if (!/[A-Z]/.test(pass)) {
+    passwordError.textContent = 'Password must contain at least one uppercase letter.';
+    isValid = false;
+// Check for at least one special character
+} else if (!/[!@#$%^&*]/.test(pass)) {
+    passwordError.textContent = 'Password must contain at least one special character.';
     isValid = false;
 } else {
-    passwordError.textContent = ''; // Clear error message if password is valid
+    // If all checks pass, clear the error message
+    passwordError.textContent = '';
 }
+
+// Return the final validity status
+return isValid;
 
 
         // Validate Confirm Password
