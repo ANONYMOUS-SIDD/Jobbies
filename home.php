@@ -1,8 +1,9 @@
 <?php
 include 'db.php';
+session_start(); // Start session to access user data
 
 // Fetch jobs from the database
-$sql = "SELECT title, company, location, description FROM jobs";
+$sql = "SELECT id, title, company, location, description FROM jobs"; // Added job ID for deletion
 $result = $conn->query($sql);
 
 $jobs = array();
@@ -66,6 +67,15 @@ $conn->close();
                                 <?php echo nl2br(htmlspecialchars($job['description'])); ?>
                             </div>
                         </div>
+
+                        <!-- Delete Button: Only show if logged-in user's company matches the job company -->
+                        <?php if (isset($_SESSION['user_company']) && trim(strtolower($_SESSION['user_company'])) === trim(strtolower($job['company']))): ?>
+                            <div class="job-actions">
+                                <button class="delete-job-btn" onclick="deleteJob(<?php echo $job['id']; ?>)">
+                                    <i class="fas fa-trash"></i> Delete Job
+                                </button>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
                 <?php if (empty($jobs)): ?>
@@ -100,5 +110,13 @@ $conn->close();
             <p>&copy; 2025 Mero Job. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        function deleteJob(jobId) {
+            if (confirm("Are you sure you want to delete this job?")) {
+                window.location.href = "delete_job.php?id=" + jobId;
+            }
+        }
+    </script>
 </body>
 </html>

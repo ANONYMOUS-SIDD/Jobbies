@@ -304,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <nav>
         <div class="logo">Jobbies</div>
         <div class="nav-links">
-            <a href="home.html">Home</a>
+            <a href="home.php">Home</a>
             <a href="contactUs.html">Contact Us</a>
             <a href="aboutUs.html">About Us</a>
             <a href="auth.html" class="cta-button">Get Started</a>
@@ -354,6 +354,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <button type="submit" id="submitBtn">
                         <i class="fa fa-upload"></i> Upload Job
                     </button>
+                    
+
                 </form>
             </div>
         </div>
