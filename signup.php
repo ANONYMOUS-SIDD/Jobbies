@@ -20,17 +20,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmPassword = $_POST['confirmPassword'];
     $userType = $_POST['userType'];
     $companyName = isset($_POST['companyName']) ? trim($_POST['companyName']) : '';
+// Check if required fields are filled
+if (empty($fullname) || empty($email) || empty($password) || empty($confirmPassword)) {
+    $response['message'] = 'All fields are required.';
+} 
+// Validate full name (only letters and spaces)
+elseif (!preg_match("/^[a-zA-Z ]+$/", $fullname)) {
+    $response['message'] = 'Full name should contain only letters and spaces.';
+} 
+// Validate email format
+elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $response['message'] = 'Please provide a valid email address.';
+} 
+// Check if email is from a disposable email provider (Basic Check)
+elseif (preg_match('/@(tempmail|mailinator|disposablemail)\./i', $email)) {
+    $response['message'] = 'Please use a non-disposable email address.';
+} 
+// Validate password length
+elseif (strlen($password) < 6) {
+    $response['message'] = 'Password must be at least 6 characters long.';
+} 
+// Check if password contains at least one uppercase letter
+elseif (!preg_match('/[A-Z]/', $password)) {
+    $response['message'] = 'Password must contain at least one uppercase letter.';
+} 
+// Check if password contains at least one special character
+elseif (!preg_match('/[\W_]/', $password)) {
+    $response['message'] = 'Password must contain at least one special character.';
+} 
+// Check if password contains at least one digit
+elseif (!preg_match('/\d/', $password)) {
+    $response['message'] = 'Password must contain at least one digit.';
+} 
+// Check if passwords match
+elseif ($password !== $confirmPassword) {
+    $response['message'] = 'Passwords do not match.';
+} 
 
-    // Check if required fields are filled
-    if (empty($fullname) || empty($email) || empty($password) || empty($confirmPassword)) {
-        $response['message'] = 'All fields are required.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $response['message'] = 'Please provide a valid email address.';
-    } elseif (strlen($password) < 6) {
-        $response['message'] = 'Password must be at least 6 characters long.';
-    } elseif ($password !== $confirmPassword) {
-        $response['message'] = 'Passwords do not match.';
-    } else {
+    
+    
+    
+    else {
         // Check if email already exists
         $sql = "SELECT * FROM users WHERE email = ?";
         if ($stmt = $conn->prepare($sql)) {
