@@ -8,7 +8,17 @@
     <link rel="stylesheet" href="apply.css">
     <link rel="stylesheet" href="nav_bar.css">
     <script src="validate.js" defer></script> <!-- Linking the external JavaScript file -->
+    <script src="setData.js"></script>
 </head>
+<script>
+    window.onload = function () {
+        var params = new URLSearchParams(window.location.search);
+        var companyValue = params.get('company');
+        if (companyValue) {
+            document.getElementById("company").value = companyValue;
+        }
+    };
+</script>
 
 <body>
     <nav class="navbar">
@@ -35,7 +45,7 @@
             <div class="error" id="emailError"></div>
             
             <label for="text">Company Name:</label>
-            <input type="text" name="company" id="company" required>
+            <input type="text" name="company" id="company" disabled>
             <div class="error" id="companyError"></div>
 
             <label for="phone">Phone Number:</label>

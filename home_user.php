@@ -25,6 +25,7 @@ $conn->close();
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="home.js" defer></script>
+    <script src="setData.js"></script>
     <script>
         function showForm() {
             var uploadJobSection = document.querySelector(".upload-job");
@@ -34,6 +35,7 @@ $conn->close();
                 uploadJobSection.style.display = 'none';  // Hide the section
             }
         }
+        
     </script>
 </head>
 <body>
@@ -78,7 +80,9 @@ $conn->close();
                                 <?php echo nl2br(htmlspecialchars($job['description'])); ?>
                             </div>
                         </div>
-                        <button class="apply-button" onclick="location.href='apply.html' ">Apply Now</button>
+                        <button class="apply-button" onclick="fixEmail('<?php echo $job['company']; ?>')">Apply Now</button>
+
+
                     </div>
                 <?php endforeach; ?>
                 <?php if (empty($jobs)): ?>
