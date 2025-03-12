@@ -1,15 +1,22 @@
+<?php
+session_start(); // Start the session
+
+// Retrieve user details from session
+$userEmail = $_SESSION['user_email'] ?? '';
+$userFullName = $_SESSION['user_fullname'] ?? ''; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apply for Job</title>
     <link rel="stylesheet" href="apply.css">
     <link rel="stylesheet" href="nav_bar.css">
-    <script src="validate.js" defer></script> <!-- Linking the external JavaScript file -->
-    <script src="setData.js"></script>
+    <script src="apply.js" defer></script> <!-- Linking the external JavaScript file -->
 </head>
+
 <script>
     window.onload = function () {
         var params = new URLSearchParams(window.location.search);
@@ -23,7 +30,7 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <a  class="navbar-brand">Jobbies</a>
+            <a class="navbar-brand">Jobbies</a>
             <ul class="navbar-nav">
                 <li class="nav-item"><a href="home.php" class="nav-link">Home</a></li>
                 <li class="nav-item"><a href="index.html" class="nav-link">Dashboard</a></li>
@@ -37,19 +44,19 @@
             <h2>Apply for Job</h2>
 
             <label for="fullname">Full Name:</label>
-            <input type="text" name="fullname" id="fullname" required>
+            <input type="text" name="fullname" id="fullname" value="<?php echo htmlspecialchars($userFullName); ?>" readonly>
             <div class="error" id="fullnameError"></div>
 
             <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required>
+            <input type="email" name="email" id="email" value="<?php echo htmlspecialchars($userEmail); ?>" readonly>
             <div class="error" id="emailError"></div>
-            
+
             <label for="text">Company Name:</label>
-            <input type="text" name="company" id="company" disabled>
+            <input type="text" name="company" id="company" readonly>
             <div class="error" id="companyError"></div>
 
-            <label for="phone">Phone Number:</label>
-            <input type="tel" name="phone" id="phone" required>
+            <label for="number">Phone Number:</label>
+            <input type="number" name="phone" id="phone" >
             <div class="error" id="phoneError"></div>
 
             <label for="education">Education:</label>
@@ -65,15 +72,15 @@
             <div class="error" id="educationError"></div>
 
             <label for="location">Location:</label>
-            <input type="text" name="location" id="location" required>
+            <input type="text" name="location" id="location" >
             <div class="error" id="locationError"></div>
 
             <label for="portfolio">Portfolio Link:</label>
-            <input type="url" name="portfolio" id="portfolio" required>
+            <input type="url" name="portfolio" id="portfolio" required >
             <div class="error" id="portfolioError"></div>
 
             <label for="cv">Upload CV (PDF/DOC):</label>
-            <input type="file" name="cv" id="cv" accept=".pdf, .doc, .docx" required>
+            <input type="file" name="cv" id="cv" accept=".pdf, .doc, .docx">
             <label for="cv" class="file-label">Choose File</label>
             <div class="error" id="cvError"></div>
 
@@ -85,5 +92,4 @@
         </form>
     </div>
 </body>
-
 </html>

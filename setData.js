@@ -1,3 +1,3 @@
 function fixEmail(value) {
-    location.href = 'apply.html?company=' + encodeURIComponent(value);
+    location.href = 'apply.php?company=' + encodeURIComponent(value);
 }
