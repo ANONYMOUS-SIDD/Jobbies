@@ -72,20 +72,21 @@
                     <h2>Welcome Back</h2>
                     <div class="input-group">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" name="email" placeholder="Email" required>
-                        <span class="error-message" id="loginEmailError"></span>
+                        <input type="email" name="email" placeholder="Email">
                     </div>
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="password" placeholder="Password">
                         <i class="fas fa-eye password-toggle" onclick="togglePasswordVisibility(this)"></i>
-                        <span class="error-message" id="loginPasswordError"></span>
+                     
                     </div>
-                    <button type="submit">Login</button>
+                    <button type="submit" onclick="validateLoginForm()">Login</button>
                     <p class="toggle-text">Don't have an account? <a href="#" id="showSignup">Sign Up</a></p>
                     <p id="errorMessage" style="color: rgb(239, 220, 220); text-align: center;margin-top: 5px;"></p> 
                     <p id="successMessage" style="color: rgb(239, 220, 220); text-align: center;padding-top: 5px;"class="successMessage"></p> 
                     <p class="success-message" id="loginSuccess"></p>
+                    <p class="error-message" id="loginEmailError"></p>
+                    <p class="error-message" id="loginPasswordError"></p>
                 </form>
 
                 <!-- Signup Form -->
@@ -93,23 +94,23 @@
                     <h2>Create Account</h2>
                     <div class="input-group">
                         <i class="fas fa-user"></i>
-                        <input type="text" name="fullname" placeholder="Full Name" required>
+                        <input type="text" name="fullname" placeholder="Full Name" >
                        
                     </div>
                     <div class="input-group">
                         <i class="fas fa-envelope"></i>
-                        <input type="email" name="email" placeholder="Email" required>
+                        <input type="email" name="email" placeholder="Email">
                     
                     </div>
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="password" placeholder="Password" required>
+                        <input type="password" name="password" placeholder="Password">
                         <i class="fas fa-eye password-toggle" onclick="togglePasswordVisibility(this)"></i>
                       
                     </div>
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                        <input type="password" name="confirmPassword" placeholder="Confirm Password">
                         <i class="fas fa-eye password-toggle" onclick="togglePasswordVisibility(this)"></i>
                  
                     </div>
@@ -145,6 +146,58 @@
     </div>
 
     <script>
+
+
+function validateLoginForm() {
+    let isValid = true;
+
+    // Get input values
+    let email = document.querySelector('input[name="email"]').value.trim();
+    let password = document.querySelector('input[name="password"]').value.trim();
+
+    // Email Validation
+    let emailError = '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (email === '') {
+        emailError = 'Email is required.';
+    } else if (!emailRegex.test(email)) {
+        emailError = 'Enter a valid email address.';
+    }
+
+    // Display email error message
+    document.getElementById('loginEmailError').textContent = emailError;
+    if (emailError) isValid = false;
+
+    // Password Validation
+    let passwordError = '';
+    
+    if (password === '') {
+        passwordError = 'Password is required.';
+    } else {
+        if (password.length < 8) {
+            passwordError += 'Password must be at least 8 characters long.\n';
+        }
+        if (!/[A-Z]/.test(password)) {
+            passwordError += 'Password must contain at least one uppercase letter (A-Z).\n';
+        }
+        if (!/[a-z]/.test(password)) {
+            passwordError += 'Password must contain at least one lowercase letter (a-z).\n';
+        }
+        if (!/\d/.test(password)) {
+            passwordError += 'Password must contain at least one number (0-9).\n';
+        }
+        if (!/[@$!%*?&]/.test(password)) {
+            passwordError += 'Password must contain at least one special character (@$!%*?&).\n';
+        }
+    }
+
+    // Display password error message
+    document.getElementById('loginPasswordError').textContent = passwordError.trim();
+    if (passwordError) isValid = false;
+
+    return isValid;
+}
         // Password Visibility Toggle
         function togglePasswordVisibility(icon) {
             const input = icon.previousElementSibling;

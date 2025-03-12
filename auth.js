@@ -30,13 +30,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const companyName = signupForm.querySelector('[name="companyName"]').value.trim();
         let isValid = true;
 
-        // Validate Full Name
-        if (fullname === '') {
-            document.getElementById('fullnameError').textContent = 'Full name is required.';
-            isValid = false;
-        } else {
-            document.getElementById('fullnameError').textContent = '';
-        }
+  // Validate Full Name
+const fullnameRegex = /^[A-Z][a-z]+(?:\s[A-Z][a-z]+)+$/;
+
+if (fullname.trim() === '') {
+    document.getElementById('fullnameError').textContent = 'Full name is required.';
+    isValid = false;
+} else if (!fullnameRegex.test(fullname)) {
+    document.getElementById('fullnameError').textContent = 'Enter a valid full name (EG: Nirjan Dahal)';
+    isValid = false;
+} else {
+    document.getElementById('fullnameError').textContent = '';
+}
+
 
         // Validate Email
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
@@ -47,13 +53,35 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('emailError').textContent = '';
         }
 
-        // Validate Password
-        if (password.length < 6) {
-            document.getElementById('passwordError').textContent = 'Password must be at least 6 characters long.';
-            isValid = false;
-        } else {
-            document.getElementById('passwordError').textContent = '';
-        }
+   // Validate Password
+let passwordError = '';
+if (password.trim() === '') {
+    passwordError = 'Password is required.';
+} else {
+    if (password.length < 8) {
+        passwordError += 'Password must be at least 8 characters long.\n';
+    }
+    if (!/[A-Z]/.test(password)) {
+        passwordError += 'Password must contain at least one uppercase letter (A-Z).\n';
+    }
+    if (!/[a-z]/.test(password)) {
+        passwordError += 'Password must contain at least one lowercase letter (a-z).\n';
+    }
+    if (!/\d/.test(password)) {
+        passwordError += 'Password must contain at least one number (0-9).\n';
+    }
+    if (!/[@$!%*?&]/.test(password)) {
+        passwordError += '\nPassword must contain at least one special character (@$!%*?&).\n';
+    }
+}
+
+if (passwordError) {
+    document.getElementById('passwordError').textContent = passwordError.trim();
+    isValid = false;
+} else {
+    document.getElementById('passwordError').textContent = '';
+}
+
 
         // Validate Confirm Password
         if (password !== confirmPassword) {

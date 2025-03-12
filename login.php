@@ -12,13 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = trim($_POST['password'] ?? '');
 
     // Check if email and password are provided
-    if (empty($email) || empty($password)) {
-        echo json_encode(["status" => "error", "message" => "Email and password are required."]);
-        exit();
-    }
+   // if (empty($email) || empty($password)) {
+       // echo json_encode(["status" => "error", "message" => "Email and password are required."]);
+       // exit();
+  //  }
 
     // Prepare SQL query to get user by email
-    $sql = "SELECT email, password, userType,companyName FROM users WHERE email = ?";
+    $sql = "SELECT fullname,email, password, userType,companyName FROM users WHERE email = ?";
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -28,9 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($row = $result->fetch_assoc()) {
             if (password_verify($password, $row['password'])) { // Verify hashed password
                 // Store user info in session after successful login
+                $_SESSION['user_fullname'] = $row['fullname'];
                 $_SESSION['user_email'] = $email;
                 $_SESSION['user_type'] = $row['userType'];
                 $_SESSION['user_company'] = $row['companyName'];
+               
+                
          
 
                 // Redirect based on user type

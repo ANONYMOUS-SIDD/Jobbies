@@ -81,11 +81,5 @@ document.getElementById("applyForm").addEventListener("submit", function (event)
     }
 });
 
-function fixEmail(value) {
-    var email = document.getElementById("setCompany");
-    if (email) {
-        email.value = value;
-    }
-    location.href = 'apply.html';
-}
+
 
