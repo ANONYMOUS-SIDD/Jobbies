@@ -1,6 +1,7 @@
 <?php
 include 'db.php';
-
+session_start(); 
+$company = $_SESSION['user_company'] ?? '';
 $error_message = '';
 $success_message = '';
 $errors = [];
@@ -37,6 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($stmt->execute()) {
             $success_message = "Job uploaded successfully!";
             $_POST = array();
+            header("Location: home.php");
+       
         } else {
             $error_message = "Error uploading job! Please try again.";
         }
@@ -324,18 +327,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" name="title" id="title" 
                                value="<?php echo $_POST['title'] ?? ''; ?>" 
                                required
-                               oninput="validateField(this)">
+                               onsubmit="validateField(this)">
                         <span class="field-error" id="title-error"></span>
                     </div>
 
                     <div class="input-group">
-                        <label for="company">Company</label>
-                        <input type="text" name="company" id="company" 
-                               value="<?php echo $_POST['company'] ?? ''; ?>" 
-                               required
-                               oninput="validateField(this)">
-                        <span class="field-error" id="company-error"></span>
-                    </div>
+    <label for="company">Company</label>
+    <input type="text" name="company" id="company" 
+           value="<?php echo htmlspecialchars($company); ?>" 
+           readonly
+           oninput="validateField(this)">
+    <span class="field-error" id="company-error"></span>
+</div>
+
 
                     <div class="input-group">
                         <label for="location">Location</label>
